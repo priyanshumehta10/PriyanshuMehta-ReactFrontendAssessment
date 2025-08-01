@@ -1,7 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ThemeContext } from "../context/ThemeContext";
-import Theme1Card from "../components/theme1"; // expects prop "products"
+import Theme1 from "../components/theme1"; // expects prop "products"
+import Theme2 from "../components/theme2"; // expects prop "products"
+
 
 export interface Product {
   id: number;
@@ -42,9 +44,9 @@ export default function Home() {
 
   return (
     <>
-      {theme === "theme1" && <Theme1Card products={products} />}
+      {theme === "theme1" && <Theme1 products={products} />}
       {/* placeholder for other themes, e.g.: */}
-      {/* {theme === "theme2" && <Theme2Card products={products} />} */}
+      {theme === "theme2" && <Theme2 products={products} />}
       {/* {theme === "theme3" && <Theme3Card products={products} />} */}
     </>
   );

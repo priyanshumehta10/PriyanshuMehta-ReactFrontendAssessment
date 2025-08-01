@@ -1,0 +1,14 @@
+/* base.css */
+:root {
+  --transition: .35s cubic-bezier(.25,.8,.25,1);
+}
+
+body {
+  transition: background var(--transition), color var(--transition);
+}
+.card {
+  transition: background var(--transition), box-shadow var(--transition), transform .3s var(--transition);
+}
+button, select {
+  transition: background var(--transition), color var(--transition), transform .2s var(--transition);
+}

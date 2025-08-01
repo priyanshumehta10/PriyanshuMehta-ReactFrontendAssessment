@@ -55,6 +55,7 @@ export default function Header() {
         </Link>
 
         {/* Desktop nav */}
+        { theme !== "theme2" &&
         <nav className="hidden md:flex gap-8">
           {navItems.map((item) => (
             <Link
@@ -67,7 +68,7 @@ export default function Header() {
               <span className="absolute left-0 bottom-0 h-0.5 w-full rounded-sm transition-all" />
             </Link>
           ))}
-        </nav>
+        </nav>}
 
         {/* Controls */}
         <div className="flex items-center gap-4">

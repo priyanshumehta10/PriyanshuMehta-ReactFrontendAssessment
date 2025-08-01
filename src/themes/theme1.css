@@ -1,0 +1,9 @@
+body.theme1 {
+  background-color: white;
+  color: black;
+  font-family: 'Times New Roman', serif;
+  text-align: left;
+}
+body.theme1 button {
+  background-color: white;
+}

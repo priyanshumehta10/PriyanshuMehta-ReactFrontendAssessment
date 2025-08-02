@@ -3,7 +3,7 @@ import axios from "axios";
 import { ThemeContext } from "../context/ThemeContext";
 import Theme1 from "../components/theme1"; // expects prop "products"
 import Theme2 from "../components/theme2"; // expects prop "products"
-
+import Theme3 from "../components/theme3"; // expects prop "products"
 
 export interface Product {
   id: number;
@@ -47,7 +47,7 @@ export default function Home() {
       {theme === "theme1" && <Theme1 products={products} />}
       {/* placeholder for other themes, e.g.: */}
       {theme === "theme2" && <Theme2 products={products} />}
-      {/* {theme === "theme3" && <Theme3Card products={products} />} */}
+      {theme === "theme3" && <Theme3 products={products} />}
     </>
   );
 }

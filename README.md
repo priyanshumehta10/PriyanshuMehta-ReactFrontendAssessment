@@ -1,69 +1,70 @@
-# React + TypeScript + Vite
+# Multi-Theme Switcher App  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React-based web application that allows users to switch between three distinct themes with noticeable differences in layout, colors, fonts, and structure. The application also fetches product data from an API and demonstrates theme persistence across multiple pages.  
 
-Currently, two official plugins are available:
+##  Live Demo  
+[Live App Link](https://priyanshu-mehta-react-frontend-asse.vercel.app/)  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  Repository  
+[GitHub Repository Link](https://github.com/priyanshumehta10/PriyanshuMehta-ReactFrontendAssessment)  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+##  Features  
+- **Three Unique Themes**  
+  - **Theme 1:** Minimalist light mode with sans-serif font.  
+  - **Theme 2:** Dark mode with sidebar layout and bold serif font.  
+  - **Theme 3:** Colorful card-based grid layout with playful Google Font `Pacifico`.  
+- **Theme Persistence** – Uses `localStorage` to remember the selected theme across reloads.  
+- **Dynamic Data** – Fetches products from [FakeStore API](https://fakestoreapi.com/products).  
+- **Add to Cart Functionality** –  
+  - Users can add products to a shopping cart.  
+  - Cart data is stored in `localStorage` for persistence across page reloads.  
+  - Users can remove items and clear the cart.  
+  - Cart updates are reflected instantly in the UI.  
+- **Multi-Page Support** – Includes Home, About, Contact and Cart pages using `React Router`.  
+- **Responsive Design** – Works on desktop, tablet, and mobile devices.  
+- **Animations** – Smooth theme switching transitions.  
+- **TypeScript Support** – Strongly typed code for better maintainability.  
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+##  Tech Stack  
+- **Frontend:** React, TypeScript  
+- **State Management:** Context API  
+- **Styling:** Tailwind CSS  
+- **Routing:** React Router  
+- **Data Fetching:** Fetch API (from FakeStore API)  
+- **Deployment:** Vercel  
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+##  Installation & Setup  
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. **Clone the Repository**  
+   ```bash
+   git clone https://github.com/priyanshumehta10/PriyanshuMehta-ReactFrontendAssessment
+   cd multi-theme-switcher
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. npm install
+
+3. npm run dev
+
+4. npm run build
+
+##  Screenshots  
+
+###  Theme 1 – Minimalist Light Mode  
+![Theme 1 Screenshot](./src/image/theme1.png)  
+
+###  Theme 2 – Dark Mode with Sidebar  
+![Theme 2 Screenshot](./src/image/theme2.png)  
+
+###  Theme 3 – Colorful Grid Layout  
+![Theme 3 Screenshot](./src/image/theme3.png)  
+
+
+##  Auther
+Priyanshu Mehta
+ mehtapriyanshu@gmail.com
+ +91 7618372810

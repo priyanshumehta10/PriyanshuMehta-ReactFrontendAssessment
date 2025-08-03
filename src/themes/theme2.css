@@ -5,6 +5,11 @@ body.theme2 {
   text-align: left;
 }
 
+body.theme2 .boxColour{
+  background-color: var(--color-gray-800) ;
+
+}
+
 body.theme2 button {
   background-color: #000;
   border: 1px solid #fff;

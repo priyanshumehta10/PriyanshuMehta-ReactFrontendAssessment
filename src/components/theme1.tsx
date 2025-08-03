@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import type { Product } from "../context/CartProvider"; // adjust path
 import { useCart } from "../context/CartProvider"; // use the global one
+import { Star } from "lucide-react";
 
 interface Theme1Props {
   products: Product[];
@@ -72,19 +73,25 @@ const ProductCard: React.FC<{ product: Product }> = React.memo(({ product }) => 
 
       <div className="mt-auto flex flex-col gap-2">
         <div className="flex items-center justify-between text-sm font-medium text-gray-700">
-          <span className="text-yellow-500">
-            ⭐ {product.rating.rate} ({product.rating.count})
+          <span className="flex text-yellow-500">
+            {Array.from({ length: 5 }, (_, index) => (
+              <Star
+                key={index}
+                size={16}
+                fill={index < Math.round(product.rating.rate) ? "currentColor" : "none"}
+                stroke="currentColor"
+              />
+            ))}
           </span>
           <span className="text-green-600 text-2xl">₹ {product.price}</span>
         </div>
         <button
           onClick={handleAdd}
           disabled={inCart}
-          className={`w-full mt-2 py-2 rounded-lg font-semibold transition border-2 ${
-            inCart
+          className={`w-full mt-2 py-2 rounded-lg font-semibold transition border-2 ${inCart
               ? "bg-gray-300 text-gray-700 cursor-not-allowed"
               : "bg-black text-white hover:opacity-90"
-          }`}
+            }`}
         >
           {inCart ? "In Cart" : "Add to Cart"}
         </button>

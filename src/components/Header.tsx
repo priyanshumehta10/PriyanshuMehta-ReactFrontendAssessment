@@ -13,9 +13,9 @@ const navItems = [
 ];
 
 const themeConfig: Record<string, { label: string; icon: ReactNode }> = {
-  theme1: { label: "Theme 1", icon: <Sun className="w-4 h-4" /> },
-  theme2: { label: "Theme 2", icon: <Moon className="w-4 h-4" /> },
-  theme3: { label: "Theme 3", icon: <Palette className="w-4 h-4" /> },
+  theme1: { label: "Theme 1", icon: <Sun className="w-6 h-6" /> },
+  theme2: { label: "Theme 2", icon: <Moon className="w-6 h-6" /> },
+  theme3: { label: "Theme 3", icon: <Palette className="w-6 h-6" /> },
 };
 
 export default function Header() {

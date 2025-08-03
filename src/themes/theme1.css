@@ -46,3 +46,8 @@ body.theme1 button:disabled {
   transform: none;
   box-shadow: none;
 }
+
+body.theme1 .boxColour{
+  background-color: white;
+
+}

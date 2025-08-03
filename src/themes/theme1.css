@@ -4,6 +4,45 @@ body.theme1 {
   font-family: 'Times New Roman', serif;
   text-align: left;
 }
+
 body.theme1 button {
   background-color: white;
+  border: 1px solid black;
+  color: black;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Hover effect */
+body.theme1 button:hover {
+  background-color: black;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Active (pressed) */
+body.theme1 button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus for keyboard users */
+body.theme1 button:focus-visible {
+  outline: 3px solid #6b63ff; /* high-contrast focus ring */
+  outline-offset: 2px;
+}
+
+/* Disabled state if needed */
+body.theme1 button:disabled {
+  background-color: #f0f0f0;
+  color: #999;
+  border-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }

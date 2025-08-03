@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeContext } from "../context/ThemeContext";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, ShoppingCart } from "lucide-react";
 import type { ReactNode } from "react";
+import { useCart } from "../context/CartProvider";
 
 const navItems = [
   { name: "Home", to: "/" },
@@ -11,7 +12,6 @@ const navItems = [
   { name: "Contact", to: "/contact" },
 ];
 
-// fallback metadata in case you haven't centralized in ThemeContext yet
 const themeConfig: Record<string, { label: string; icon: ReactNode }> = {
   theme1: { label: "Theme 1", icon: <Sun className="w-4 h-4" /> },
   theme2: { label: "Theme 2", icon: <Moon className="w-4 h-4" /> },
@@ -22,6 +22,9 @@ export default function Header() {
   const { theme, setTheme } = useContext(ThemeContext);
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const { totalItems } = useCart();
+  const cartV = useCart();
+console.log(cartV);
 
   const currentLabel = themeConfig[theme]?.label ?? theme;
   const currentIcon = themeConfig[theme]?.icon;
@@ -32,7 +35,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 shadow-md ${theme !== "theme2" ? "" : "bg-gray-800"} `}
+      className={`fixed top-0 w-full z-50 shadow-md ${theme !== "theme2" ? "" : "bg-gray-800"}`}
       style={{
         transition: "background 0.35s ease",
         backdropFilter: "saturate(180%) blur(100px)",
@@ -48,7 +51,6 @@ export default function Header() {
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className={`font-extrabold text-3xl tracking-wide ${theme !== "theme2" ? "text-black" : "text-white"}`}
           >
-
             Hipster
           </motion.div>
         </Link>
@@ -62,13 +64,14 @@ export default function Header() {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="relative px-1 py-2 font-medium text-sm transition-colors text-black"
+                  className="relative px-1 py-2 font-medium text-xl transition-colors text-black"
                   aria-current={isActive ? "page" : undefined}
                 >
                   {item.name}
                   <span
-                    className={`absolute left-0 bottom-0 h-0.5 w-full rounded-sm transition-all ${isActive ? "bg-black scale-x-100" : "bg-transparent"
-                      }`}
+                    className={`absolute left-0 bottom-0 h-0.5 w-full rounded-sm transition-all ${
+                      isActive ? "bg-black scale-x-100" : "bg-transparent"
+                    }`}
                     style={{ transformOrigin: "left" }}
                   />
                 </Link>
@@ -79,8 +82,18 @@ export default function Header() {
 
         {/* Controls */}
         <div className="flex items-center gap-4">
+          {/* Cart Button (desktop) */}
+          <Link to="/cart" className="hidden md:inline-block relative p-2 rounded-full border">
+            <ShoppingCart className="w-6 h-6" />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+
           {/* Theme dropdown */}
-          <div className="relative flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <motion.div
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
@@ -90,12 +103,14 @@ export default function Header() {
                 aria-label="Select theme"
                 value={theme}
                 onChange={(e) => setTheme(e.target.value as any)}
-  className={`
-    appearance-none pr-8 pl-4 py-2 rounded-full text-sm outline-none shadow-sm cursor-pointer transition-colors backdrop-blur-sm
-    ${theme === "theme2"
-      ? "bg-gray-700 text-white placeholder-gray-300 focus:ring-white focus:ring-offset-1"
-      : "bg-white text-black focus:ring-black focus:ring-offset-1"}
-  `}
+                className={`
+                  appearance-none pr-8 pl-4 py-2 rounded-full text-xl outline-none shadow-sm cursor-pointer transition-colors backdrop-blur-sm
+                  ${
+                    theme === "theme2"
+                      ? "bg-gray-700 text-white placeholder-gray-300 focus:ring-white focus:ring-offset-1"
+                      : "bg-white text-black focus:ring-black focus:ring-offset-1"
+                  }
+                `}
               >
                 {Object.entries(themeConfig).map(([key, meta]) => (
                   <option key={key} value={key}>
@@ -124,7 +139,7 @@ export default function Header() {
                 </svg>
               </div>
             </motion.div>
-            <div className="flex items-center gap-1 px-3 py-1 rounded-full text-xs uppercase tracking-wider">
+            <div className="hidden md:flex items-center gap-1 px-3 py-1 rounded-full text-xs uppercase tracking-wider">
               {currentIcon}
               <span>{currentLabel.replace("Theme ", "")}</span>
             </div>
@@ -161,15 +176,32 @@ export default function Header() {
                     key={item.to}
                     to={item.to}
                     onClick={() => setOpen(false)}
-                    className={`py-2 font-bold rounded text-base transition-colors ${isActive ? "underline decoration-black" : "text-black"
-                      }`}
+                    className={`py-2 font-bold rounded text-base transition-colors ${
+                      isActive ? "underline decoration-black" : "text-black"
+                    }`}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {item.name}
                   </Link>
                 );
               })}
-              {/* Mobile theme selector too */}
+
+              {/* Mobile Cart Button */}
+              <Link
+                to="/cart"
+                onClick={() => setOpen(false)}
+                className="relative flex items-center gap-2 py-2 font-bold text-base"
+              >
+                <ShoppingCart className="w-6 h-6" />
+                Cart
+                {totalItems > 0 && (
+                  <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2">
+                    {totalItems}
+                  </span>
+                )}
+              </Link>
+
+              {/* Mobile Theme selector */}
               <div className="mt-2">
                 <label className="block text-xs mb-1">Select Theme</label>
                 <select
@@ -177,11 +209,16 @@ export default function Header() {
                   value={theme}
                   onChange={(e) => setTheme(e.target.value as any)}
                   className={`
-    appearance-none pr-8 pl-4 py-2 rounded-full text-sm outline-none shadow-sm cursor-pointer
-    transition-colors
-    ${theme === "theme2" ? "bg-gray-700 text-white placeholder-gray-300" : "bg-white text-black"}
-    focus:ring-2 focus:ring-offset-1 ${theme === "theme2" ? "focus:ring-white" : "focus:ring-black"}
-  `}
+                    appearance-none pr-8 pl-4 py-2 rounded-full text-sm outline-none shadow-sm cursor-pointer transition-colors
+                    ${
+                      theme === "theme2"
+                        ? "bg-gray-700 text-white placeholder-gray-300"
+                        : "bg-white text-black"
+                    }
+                    focus:ring-2 focus:ring-offset-1 ${
+                      theme === "theme2" ? "focus:ring-white" : "focus:ring-black"
+                    }
+                  `}
                 >
                   {Object.entries(themeConfig).map(([key, meta]) => (
                     <option key={key} value={key}>
@@ -189,7 +226,6 @@ export default function Header() {
                     </option>
                   ))}
                 </select>
-
               </div>
             </div>
           </motion.div>

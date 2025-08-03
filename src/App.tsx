@@ -7,7 +7,10 @@ import Header from "./components/Header";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+
+import Cart from "./pages/Cart";
 import ThemeSwitchOverlay from "./components/ThemeSwitchOverlay";
+import { CartProvider } from "./context/CartProvider";
 
 function InnerRoutes() {
   const { theme } = useContext(ThemeContext);
@@ -24,6 +27,8 @@ function InnerRoutes() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/cart" element={<Cart />} />
+
         </Routes>
       </motion.div>
     </AnimatePresence>
@@ -32,6 +37,7 @@ function InnerRoutes() {
 
 function App() {
   return (
+    <CartProvider>
     <ThemeProvider>
       <Router>
         <Header />
@@ -42,6 +48,7 @@ function App() {
         </div>
       </Router>
     </ThemeProvider>
+    </CartProvider>
   );
 }
 

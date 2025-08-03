@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ChevronDown, Star, X, Filter } from "lucide-react";
 
@@ -29,10 +29,35 @@ const Badge: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   </span>
 );
 
+// hook to detect truncation
+const useIsTruncated = <T extends HTMLElement>(ref: React.RefObject<T | null>) => {
+  const [truncated, setTruncated] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const check = () => {
+      const isClipped =
+        el.scrollHeight > el.clientHeight + 1 ||
+        el.scrollWidth > el.clientWidth + 1;
+      setTruncated(isClipped);
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ref]);
+  return truncated;
+};
+
 const ProductCard: React.FC<{
   product: Product;
   onImageClick: (src: string) => void;
 }> = React.memo(({ product, onImageClick }) => {
+  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const descRef = useRef<HTMLParagraphElement | null>(null);
+  const isTitleTruncated = useIsTruncated(titleRef);
+  const isDescTruncated = useIsTruncated(descRef);
+
   return (
     <motion.div
       layout
@@ -42,7 +67,6 @@ const ProductCard: React.FC<{
       whileHover={{ scale: 1.03 }}
       className="relative overflow-hidden rounded-2xl p-1 group"
     >
-      {/* animated rotating border on hover */}
       <div className="relative">
         <div className="animated-border rounded-2xl">
           <div className="relative bg-white/95 backdrop-blur-md rounded-xl p-5 flex flex-col h-full shadow-lg">
@@ -63,30 +87,49 @@ const ProductCard: React.FC<{
 
             <div className="flex-1 flex flex-col min-w-0">
               <div className="flex justify-between items-start mb-1">
-                <div className="relative group w-fit">
-                  <h2 className="text-lg font-bold text-gray-900 line-clamp-2 cursor-pointer">
+                <div className="relative group w-fit flex-1 min-w-0">
+                  <h2
+                    ref={titleRef}
+                    className="text-lg font-bold text-gray-900 line-clamp-2 cursor-pointer"
+                    title={isTitleTruncated ? product.title : undefined}
+                    aria-label={isTitleTruncated ? product.title : undefined}
+                  >
                     {product.title}
                   </h2>
 
-                  <div className="absolute left-0 top-full mt-1 hidden whitespace-normal rounded bg-gray-900 px-2 py-1 text-sm text-white shadow-lg group-hover:block z-10">
-                    {product.title}
-                  </div>
+                  {isTitleTruncated && (
+                    <div className="absolute left-0 top-full mt-1 whitespace-normal rounded bg-gray-900 px-2 py-1 text-sm text-white shadow-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {product.title}
+                    </div>
+                  )}
                 </div>
-
 
                 <Badge>{product.category}</Badge>
               </div>
-              <p className="text-sm text-gray-700 line-clamp-3 mb-3 flex-1">
+              <p
+                ref={descRef}
+                className="text-sm text-gray-700 line-clamp-3 mb-3 flex-1 relative"
+                title={isDescTruncated ? product.description : undefined}
+                aria-label={isDescTruncated ? product.description : undefined}
+              >
                 {product.description}
+                {isDescTruncated && (
+                  <div className="absolute left-0 top-full mt-1 whitespace-normal rounded bg-gray-900 px-2 py-1 text-sm text-white shadow-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {product.description}
+                  </div>
+                )}
               </p>
             </div>
 
             <div className="mt-2 flex items-center justify-between text-sm font-medium">
               <div className="flex items-center gap-2">
                 <div className="flex items-center rounded-full bg-yellow-100 px-2 py-1 text-yellow-800 text-xs font-semibold">
-                  <Star className="w-3 h-3 inline-block mr-1" /> {product.rating.rate.toFixed(1)}
+                  <Star className="w-3 h-3 inline-block mr-1" />{" "}
+                  {product.rating.rate.toFixed(1)}
                 </div>
-                <div className="text-gray-500 text-xs">({product.rating.count})</div>
+                <div className="text-gray-500 text-xs">
+                  ({product.rating.count})
+                </div>
               </div>
               <div className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-teal-300">
                 {formatPrice(product.price)}
@@ -170,7 +213,9 @@ const Theme3: React.FC<Theme3Props> = ({ products }) => {
 
   if (!products || products.length === 0) {
     return (
-      <div className="text-center py-12 text-gray-400 text-lg">No products available.</div>
+      <div className="text-center py-12 text-gray-400 text-lg">
+        No products available.
+      </div>
     );
   }
 

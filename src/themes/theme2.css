@@ -1,5 +1,49 @@
 body.theme2 {
-  background-color: black;
-  color: white;
+  background-color: #000;
+  color: #fff;
   font-family: 'Times New Roman', serif;
+  text-align: left;
+}
+
+body.theme2 button {
+  background-color: #000;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease,
+    box-shadow 0.2s ease;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Hover effect */
+body.theme2 button:hover {
+  background-color: #9e9e9e;
+  color: #000;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.08);
+}
+
+/* Active (pressed) */
+body.theme2 button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.08);
+}
+
+/* Focus for keyboard users */
+body.theme2 button:focus-visible {
+  outline: 3px solid #9e8dc9; /* subtle contrasting focus ring */
+  outline-offset: 2px;
+}
+
+/* Disabled */
+body.theme2 button:disabled {
+  background-color: #1f1f1f;
+  color: #555;
+  border-color: #333;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }

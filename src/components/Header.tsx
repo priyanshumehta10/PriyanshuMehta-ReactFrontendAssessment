@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeContext } from "../context/ThemeContext";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Sun, Moon, ShoppingCart } from "lucide-react";
+import { Menu, X, Sun, Moon, ShoppingCart, Palette } from "lucide-react";
 import type { ReactNode } from "react";
 import { useCart } from "../context/CartProvider";
 
@@ -15,7 +15,7 @@ const navItems = [
 const themeConfig: Record<string, { label: string; icon: ReactNode }> = {
   theme1: { label: "Theme 1", icon: <Sun className="w-4 h-4" /> },
   theme2: { label: "Theme 2", icon: <Moon className="w-4 h-4" /> },
-  theme3: { label: "Theme 3", icon: <Sun className="w-4 h-4" /> },
+  theme3: { label: "Theme 3", icon: <Palette className="w-4 h-4" /> },
 };
 
 export default function Header() {
@@ -23,8 +23,6 @@ export default function Header() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const { totalItems } = useCart();
-  const cartV = useCart();
-console.log(cartV);
 
   const currentLabel = themeConfig[theme]?.label ?? theme;
   const currentIcon = themeConfig[theme]?.icon;
@@ -69,9 +67,8 @@ console.log(cartV);
                 >
                   {item.name}
                   <span
-                    className={`absolute left-0 bottom-0 h-0.5 w-full rounded-sm transition-all ${
-                      isActive ? "bg-black scale-x-100" : "bg-transparent"
-                    }`}
+                    className={`absolute left-0 bottom-0 h-0.5 w-full rounded-sm transition-all ${isActive ? "bg-black scale-x-100" : "bg-transparent"
+                      }`}
                     style={{ transformOrigin: "left" }}
                   />
                 </Link>
@@ -83,14 +80,18 @@ console.log(cartV);
         {/* Controls */}
         <div className="flex items-center gap-4">
           {/* Cart Button (desktop) */}
-          <Link to="/cart" className="hidden md:inline-block relative p-2 rounded-full border">
-            <ShoppingCart className="w-6 h-6" />
-            {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
-                {totalItems}
-              </span>
-            )}
-          </Link>
+          {/* Cart Button (desktop) */}
+          {theme !== "theme2" && (
+            <Link to="/cart" className="hidden md:inline-block relative p-2 rounded-full border">
+              <ShoppingCart className="w-6 h-6" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
+                  {totalItems}
+                </span>
+              )}
+            </Link>
+          )}
+
 
           {/* Theme dropdown */}
           <div className="flex items-center gap-2">
@@ -105,10 +106,9 @@ console.log(cartV);
                 onChange={(e) => setTheme(e.target.value as any)}
                 className={`
                   appearance-none pr-8 pl-4 py-2 rounded-full text-xl outline-none shadow-sm cursor-pointer transition-colors backdrop-blur-sm
-                  ${
-                    theme === "theme2"
-                      ? "bg-gray-700 text-white placeholder-gray-300 focus:ring-white focus:ring-offset-1"
-                      : "bg-white text-black focus:ring-black focus:ring-offset-1"
+                  ${theme === "theme2"
+                    ? "bg-gray-700 text-white placeholder-gray-300 focus:ring-white focus:ring-offset-1"
+                    : "bg-white text-black focus:ring-black focus:ring-offset-1"
                   }
                 `}
               >
@@ -176,9 +176,8 @@ console.log(cartV);
                     key={item.to}
                     to={item.to}
                     onClick={() => setOpen(false)}
-                    className={`py-2 font-bold rounded text-base transition-colors ${
-                      isActive ? "underline decoration-black" : "text-black"
-                    }`}
+                    className={`py-2 font-bold rounded text-base transition-colors ${isActive ? "underline decoration-black" : "text-black"
+                      }`}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {item.name}
@@ -210,13 +209,11 @@ console.log(cartV);
                   onChange={(e) => setTheme(e.target.value as any)}
                   className={`
                     appearance-none pr-8 pl-4 py-2 rounded-full text-sm outline-none shadow-sm cursor-pointer transition-colors
-                    ${
-                      theme === "theme2"
-                        ? "bg-gray-700 text-white placeholder-gray-300"
-                        : "bg-white text-black"
+                    ${theme === "theme2"
+                      ? "bg-gray-700 text-white placeholder-gray-300"
+                      : "bg-white text-black"
                     }
-                    focus:ring-2 focus:ring-offset-1 ${
-                      theme === "theme2" ? "focus:ring-white" : "focus:ring-black"
+                    focus:ring-2 focus:ring-offset-1 ${theme === "theme2" ? "focus:ring-white" : "focus:ring-black"
                     }
                   `}
                 >

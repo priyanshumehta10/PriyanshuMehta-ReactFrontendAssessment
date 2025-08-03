@@ -23,18 +23,16 @@ export default function Header() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
 
-  // optional: if ThemeContext exposes headerBg and you want to reflect it via inline style
   const currentLabel = themeConfig[theme]?.label ?? theme;
   const currentIcon = themeConfig[theme]?.icon;
 
   useEffect(() => {
-    // let the root reflect current theme for CSS selectors
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   return (
     <header
-      className="fixed top-0 w-full z-50 shadow-md"
+      className={`fixed top-0 w-full z-50 shadow-md ${theme !== "theme2" ? "" : "bg-gray-800"} `}
       style={{
         transition: "background 0.35s ease",
         backdropFilter: "saturate(180%) blur(100px)",
@@ -48,27 +46,36 @@ export default function Header() {
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="font-extrabold text-xl tracking-wide"
+            className={`font-extrabold text-3xl tracking-wide ${theme !== "theme2" ? "text-black" : "text-white"}`}
           >
+
             Hipster
           </motion.div>
         </Link>
 
         {/* Desktop nav */}
-        { theme !== "theme2" &&
-        <nav className="hidden md:flex gap-8">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="relative px-1 py-2 font-medium text-sm transition-colors"
-              aria-current={location.pathname === item.to ? "page" : undefined}
-            >
-              {item.name}
-              <span className="absolute left-0 bottom-0 h-0.5 w-full rounded-sm transition-all" />
-            </Link>
-          ))}
-        </nav>}
+        {theme !== "theme2" && (
+          <nav className="hidden md:flex gap-8">
+            {navItems.map((item) => {
+              const isActive = location.pathname === item.to;
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="relative px-1 py-2 font-medium text-sm transition-colors text-black"
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {item.name}
+                  <span
+                    className={`absolute left-0 bottom-0 h-0.5 w-full rounded-sm transition-all ${isActive ? "bg-black scale-x-100" : "bg-transparent"
+                      }`}
+                    style={{ transformOrigin: "left" }}
+                  />
+                </Link>
+              );
+            })}
+          </nav>
+        )}
 
         {/* Controls */}
         <div className="flex items-center gap-4">
@@ -83,7 +90,12 @@ export default function Header() {
                 aria-label="Select theme"
                 value={theme}
                 onChange={(e) => setTheme(e.target.value as any)}
-                className="appearance-none pr-8 pl-4 py-2 rounded-full text-sm outline-none focus:ring-2 focus:ring-offset-1 focus:ring-current  backdrop-blur-sm shadow-sm cursor-pointer"
+  className={`
+    appearance-none pr-8 pl-4 py-2 rounded-full text-sm outline-none shadow-sm cursor-pointer transition-colors backdrop-blur-sm
+    ${theme === "theme2"
+      ? "bg-gray-700 text-white placeholder-gray-300 focus:ring-white focus:ring-offset-1"
+      : "bg-white text-black focus:ring-black focus:ring-offset-1"}
+  `}
               >
                 {Object.entries(themeConfig).map(([key, meta]) => (
                   <option key={key} value={key}>
@@ -118,7 +130,6 @@ export default function Header() {
             </div>
           </div>
 
-
           {/* Mobile menu toggle */}
           <button
             className="md:hidden p-2 rounded-full focus:outline-none"
@@ -143,24 +154,34 @@ export default function Header() {
             className="md:hidden border-t"
           >
             <div className="flex flex-col px-6 py-4 gap-3">
-              {navItems.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  onClick={() => setOpen(false)}
-                  className="py-2 font-semibold rounded text-base transition-colors"
-                  aria-current={location.pathname === item.to ? "page" : undefined}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navItems.map((item) => {
+                const isActive = location.pathname === item.to;
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={() => setOpen(false)}
+                    className={`py-2 font-bold rounded text-base transition-colors ${isActive ? "underline decoration-black" : "text-black"
+                      }`}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    {item.name}
+                  </Link>
+                );
+              })}
               {/* Mobile theme selector too */}
               <div className="mt-2">
                 <label className="block text-xs mb-1">Select Theme</label>
                 <select
+                  aria-label="Select theme"
                   value={theme}
                   onChange={(e) => setTheme(e.target.value as any)}
-                  className="w-full rounded px-3 py-2"
+                  className={`
+    appearance-none pr-8 pl-4 py-2 rounded-full text-sm outline-none shadow-sm cursor-pointer
+    transition-colors
+    ${theme === "theme2" ? "bg-gray-700 text-white placeholder-gray-300" : "bg-white text-black"}
+    focus:ring-2 focus:ring-offset-1 ${theme === "theme2" ? "focus:ring-white" : "focus:ring-black"}
+  `}
                 >
                   {Object.entries(themeConfig).map(([key, meta]) => (
                     <option key={key} value={key}>
@@ -168,6 +189,7 @@ export default function Header() {
                     </option>
                   ))}
                 </select>
+
               </div>
             </div>
           </motion.div>

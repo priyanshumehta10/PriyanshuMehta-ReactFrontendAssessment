@@ -39,28 +39,38 @@ const About: React.FC = () => {
         `}
         style={{ marginLeft: 0 }}
       >
-        <section className="w-full max-w-3xl text-center">
+        {/* Card wrapper */}
+        <div
+          className={`
+    w-full max-w-4xl rounded-2xl shadow-xl p-8 space-y-10
+    ${theme === "theme2"
+              ? "bg-gray-800 text-white"
+              : "bg-white text-gray-900"}
+  `}
+        >
           {/* Header */}
-          <header className="mb-8">
-            <h1 className="text-4xl font-semibold mb-4">About Us</h1>
-            <p className="text-base leading-relaxed max-w-2xl mx-auto">
-              Explore is a platform for sharing ideas, connecting people, and
-              amplifying voices. We combine clarity, purpose, and community to
-              help users express themselves and discover meaningful content.
-            </p>
-          </header>
+          <section className="text-center">
+            <header className="mb-6">
+              <h1 className="text-5xl font-semibold mb-4">About Us</h1>
+              <p className="text-base leading-relaxed max-w-2xl mx-auto">
+                Explore is a platform for sharing ideas, connecting people, and
+                amplifying voices. We combine clarity, purpose, and community to
+                help users express themselves and discover meaningful content.
+              </p>
+            </header>
+          </section>
 
           {/* Key Info */}
-          <div className="mb-10 flex flex-col sm:flex-row justify-center gap-10">
-            <div>
+          <div className="flex flex-col sm:flex-row justify-center gap-8 text-center">
+            <div className="flex-1">
               <h2 className="text-lg font-medium mb-1">Founded</h2>
               <p>2024</p>
             </div>
-            <div>
+            <div className="flex-1">
               <h2 className="text-lg font-medium mb-1">Location</h2>
               <p>Almora, Uttarakhand</p>
             </div>
-            <div>
+            <div className="flex-1">
               <h2 className="text-lg font-medium mb-1">Mission</h2>
               <p>Empower people to share their knowledge and stories.</p>
             </div>
@@ -68,15 +78,15 @@ const About: React.FC = () => {
 
           {/* Team */}
           <div>
-            <h2 className="text-2xl font-semibold mb-6">Our Team</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-center">Our Team</h2>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 justify-items-center">
               {teamData.map((member) => (
                 <div
                   key={member.name}
-                  className="border rounded-lg p-4 flex flex-col items-center max-w-xs"
+                  className="border rounded-lg p-6 flex flex-col items-center max-w-xs w-full "
                 >
                   {/* Placeholder avatar */}
-                  <div className="w-12 h-12 rounded-full border flex items-center justify-center mb-3">
+                  <div className="w-14 h-14 rounded-full border flex items-center justify-center mb-3">
                     <span className="text-sm font-medium">
                       {member.name
                         .split(" ")
@@ -85,14 +95,14 @@ const About: React.FC = () => {
                         .toUpperCase()}
                     </span>
                   </div>
-                  <div className="font-medium">{member.name}</div>
-                  <div className="text-sm mb-2">{member.role}</div>
+                  <div className="font-medium text-center">{member.name}</div>
+                  <div className="text-sm mb-2 text-center">{member.role}</div>
                   <p className="text-sm text-center">{member.bio}</p>
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </div>
       </main>
     </div>
   );

@@ -28,9 +28,8 @@ const Contact: React.FC = () => {
 
       <main
         className={`
-          flex-1 flex
-          px-6 py-12 transition-padding duration-300
-          flex-col items-center justify-start
+          flex-1 px-6 py-12 transition-padding duration-300
+          flex flex-col items-center
           ${showSidebar ? (collapsed ? "pl-16 md:pl-16" : "pl-64 md:pl-64") : ""}
         `}
         style={{ marginLeft: 0 }}
